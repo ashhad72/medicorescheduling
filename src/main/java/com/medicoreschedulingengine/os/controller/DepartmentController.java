@@ -48,6 +48,7 @@ public class DepartmentController {
      * Returns a single department by its type.
      *
      * Example: GET /api/departments/ER
+     * shdgvashidvaskbvaskfbv
      */
     @GetMapping("/{type}")
     public ResponseEntity<?> getDepartmentByType(@PathVariable String type) {
