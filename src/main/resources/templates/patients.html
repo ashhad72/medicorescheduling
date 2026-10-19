@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients — MediCore</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="/css/global.css">
+    <link rel="stylesheet" th:href="@{/css/patients.css}" href="/css/patients.css">
+</head>
+<body>
+
+<div class="ecg-bar"></div>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">
+        <span class="pulse-dot"></span>
+        MediCore
+    </a>
+    <a href="/" class="nav-link">Home</a>
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/patients" class="nav-link active">Patients</a>
+    <a href="/simulation" class="nav-link">Simulation</a>
+    <a href="/history" class="nav-link">History</a>
+</nav>
+
+<div class="page">
+
+    <div class="section-header">
+        <span class="section-title">Patient Registry</span>
+        <span class="section-label">Admit &amp; Manage Patients</span>
+    </div>
+
+    <div class="patients-layout">
+
+        <!-- Add Patient Form -->
+        <div class="panel">
+            <div class="panel-header">New Admission</div>
+
+            <div class="alert alert-success" id="successMsg"></div>
+            <div class="alert alert-error" id="errorMsg"></div>
+
+            <div class="form-group">
+                <label class="form-label">Patient Name</label>
+                <input type="text" class="form-input" id="name" placeholder="e.g. Ayesha Khan">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Department</label>
+                <select class="form-select" id="departmentType">
+                    <option value="ER">Emergency (ER)</option>
+                    <option value="OPD">Outpatient (OPD)</option>
+                    <option value="ICU">Intensive Care (ICU)</option>
+                    <option value="SURGERY">Surgery</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Arrival Time</label>
+                <input type="number" class="form-input" id="arrivalTime" value="0" min="0">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Burst Time (treatment duration)</label>
+                <input type="number" class="form-input" id="burstTime" value="1" min="1">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Priority</label>
+                <input type="number" class="form-input" id="priority" value="1" min="1">
+                <div class="priority-hint">
+                    <span class="p1">1 — Critical</span>
+                    <span class="p2">2-3 — Urgent</span>
+                    <span class="p4">4+ — Normal</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="addPatient()">
+                + Admit Patient
+            </button>
+        </div>
+
+        <!-- Patient List -->
+        <div class="panel">
+            <div class="panel-header">Patient Queue</div>
+
+            <div class="filter-row">
+                <select class="form-select" id="filterDept" onchange="loadPatients()">
+                    <option value="ALL">All Departments</option>
+                    <option value="ER">Emergency (ER)</option>
+                    <option value="OPD">Outpatient (OPD)</option>
+                    <option value="ICU">Intensive Care (ICU)</option>
+                    <option value="SURGERY">Surgery</option>
+                </select>
+                <span class="count-tag"><strong id="patientCount">0</strong> patients</span>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Dept</th>
+                        <th>Arrival</th>
+                        <th>Burst</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="patientTable">
+                    <tr><td colspan="8"><div class="empty-state">Loading patients...</div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script th:src="@{/js/global.js}" src="/js/global.js"></script>
+<script th:src="@{/js/patients.js}" src="/js/patients.js"></script>
+</body>
+</html>

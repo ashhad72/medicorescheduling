@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation — MediCore</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="/css/global.css">
+    <link rel="stylesheet" th:href="@{/css/simulation.css}" href="/css/simulation.css">
+</head>
+<body>
+
+<div class="ecg-bar"></div>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">
+        <span class="pulse-dot"></span>
+        MediCore
+    </a>
+    <a href="/" class="nav-link">Home</a>
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/patients" class="nav-link">Patients</a>
+    <a href="/simulation" class="nav-link active">Simulation</a>
+    <a href="/history" class="nav-link">History</a>
+</nav>
+
+<div class="page">
+
+    <div class="section-header">
+        <span class="section-title">Algorithm Arena</span>
+        <span class="section-label">Run Simulation</span>
+    </div>
+
+    <!-- Department selection -->
+    <div class="panel">
+        <div class="panel-header">Select Department</div>
+
+        <div class="dept-select-grid">
+
+            <div class="dept-select-card er" onclick="selectDept('ER', this)" data-dept="ER">
+                <div class="name">
+                    <span class="icon-circle">🚨</span>
+                    Emergency
+                </div>
+                <div class="vs-row">
+                    <span class="algo">Preemptive Priority</span>
+                    <span class="vs">vs</span>
+                    <span class="algo">Multilevel Queue</span>
+                </div>
+            </div>
+
+            <div class="dept-select-card opd" onclick="selectDept('OPD', this)" data-dept="OPD">
+                <div class="name">
+                    <span class="icon-circle">🏥</span>
+                    Outpatient
+                </div>
+                <div class="vs-row">
+                    <span class="algo">FCFS</span>
+                    <span class="vs">vs</span>
+                    <span class="algo">Round Robin</span>
+                </div>
+            </div>
+
+            <div class="dept-select-card icu" onclick="selectDept('ICU', this)" data-dept="ICU">
+                <div class="name">
+                    <span class="icon-circle">💉</span>
+                    Intensive Care
+                </div>
+                <div class="vs-row">
+                    <span class="algo">SRTF</span>
+                    <span class="vs">vs</span>
+                    <span class="algo">EDF</span>
+                </div>
+            </div>
+
+            <div class="dept-select-card surgery" onclick="selectDept('SURGERY', this)" data-dept="SURGERY">
+                <div class="name">
+                    <span class="icon-circle">🔪</span>
+                    Surgery
+                </div>
+                <div class="vs-row">
+                    <span class="algo">SJF</span>
+                    <span class="vs">vs</span>
+                    <span class="algo">HRRN</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="alert alert-error" id="errorMsg"></div>
+
+        <div class="run-row" style="margin-top:20px;">
+            <button class="btn btn-primary btn-run" id="runBtn" onclick="runSimulation()" disabled>
+                ▶ Run Simulation
+            </button>
+            <span style="font-family:var(--font-mono); font-size:0.78rem; color:var(--text-muted);" id="selectedDeptLabel">
+                    No department selected
+                </span>
+        </div>
+
+    </div>
+
+    <!-- Simulating pulse -->
+    <div class="simulating-pulse" id="simPulse">
+        <div class="pulse-bars"><span></span><span></span><span></span><span></span></div>
+        Running simulation...
+    </div>
+
+    <!-- Results -->
+    <div class="results-section" id="results">
+
+        <!-- Winner banner -->
+        <div class="winner-banner">
+            <span class="trophy">🏆</span>
+            <div>
+                <h3>Overall Winner — <span id="winnerName">—</span></h3>
+                <p>
+                    Waiting Time: <strong id="wtWinner">—</strong> &nbsp;·&nbsp;
+                    Turnaround Time: <strong id="ttWinner">—</strong> &nbsp;·&nbsp;
+                    Response Time: <strong id="rtWinner">—</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Metrics comparison -->
+        <div class="panel">
+            <div class="panel-header">Performance Comparison</div>
+            <div class="comparison-grid">
+
+                <div class="algo-result-card" id="algo1Card">
+                    <div class="algo-title">
+                        <span id="algo1Name">Algorithm 1</span>
+                        <span class="crown">👑</span>
+                    </div>
+
+                    <div class="metric-bar-row">
+                        <div class="metric-top">
+                            <span class="metric-name">Avg Waiting Time</span>
+                            <span class="metric-num" id="algo1WT">0.00</span>
+                        </div>
+                        <div class="metric-bar-track"><div class="metric-bar-fill" id="algo1WTBar"></div></div>
+                    </div>
+
+                    <div class="metric-bar-row">
+                        <div class="metric-top">
+                            <span class="metric-name">Avg Turnaround Time</span>
+                            <span class="metric-num" id="algo1TT">0.00</span>
+                        </div>
+                        <div class="metric-bar-track"><div class="metric-bar-fill" id="algo1TTBar"></div></div>
+                    </div>
+
+                    <div class="metric-bar-row">
+                        <div class="metric-top">
+                            <span class="metric-name">Avg Response Time</span>
+                            <span class="metric-num" id="algo1RT">0.00</span>
+                        </div>
+                        <div class="metric-bar-track"><div class="metric-bar-fill" id="algo1RTBar"></div></div>
+                    </div>
+
+                    <div class="total-patients">
+                        <span>Total Patients</span>
+                        <strong id="algo1TP">0</strong>
+                    </div>
+                </div>
+
+                <div class="algo-result-card" id="algo2Card">
+                    <div class="algo-title">
+                        <span id="algo2Name">Algorithm 2</span>
+                        <span class="crown">👑</span>
+                    </div>
+
+                    <div class="metric-bar-row">
+                        <div class="metric-top">
+                            <span class="metric-name">Avg Waiting Time</span>
+                            <span class="metric-num" id="algo2WT">0.00</span>
+                        </div>
+                        <div class="metric-bar-track"><div class="metric-bar-fill" id="algo2WTBar"></div></div>
+                    </div>
+
+                    <div class="metric-bar-row">
+                        <div class="metric-top">
+                            <span class="metric-name">Avg Turnaround Time</span>
+                            <span class="metric-num" id="algo2TT">0.00</span>
+                        </div>
+                        <div class="metric-bar-track"><div class="metric-bar-fill" id="algo2TTBar"></div></div>
+                    </div>
+
+                    <div class="metric-bar-row">
+                        <div class="metric-top">
+                            <span class="metric-name">Avg Response Time</span>
+                            <span class="metric-num" id="algo2RT">0.00</span>
+                        </div>
+                        <div class="metric-bar-track"><div class="metric-bar-fill" id="algo2RTBar"></div></div>
+                    </div>
+
+                    <div class="total-patients">
+                        <span>Total Patients</span>
+                        <strong id="algo2TP">0</strong>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Gantt charts -->
+        <div class="panel">
+            <div class="panel-header">Execution Timeline (Gantt Chart)</div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('gantt1', this)">Algorithm 1</button>
+                <button class="tab-btn" onclick="switchTab('gantt2', this)">Algorithm 2</button>
+            </div>
+
+            <div class="tab-content active" id="gantt1">
+                <div class="gantt-meta">Algorithm: <span class="algo-name" id="gantt1Label">—</span></div>
+                <div class="gantt-scroll">
+                    <div class="gantt-track" id="gantt1Chart"></div>
+                    <div class="gantt-ruler" id="gantt1Ruler"></div>
+                </div>
+                <div class="gantt-legend" id="gantt1Legend"></div>
+            </div>
+
+            <div class="tab-content" id="gantt2">
+                <div class="gantt-meta">Algorithm: <span class="algo-name" id="gantt2Label">—</span></div>
+                <div class="gantt-scroll">
+                    <div class="gantt-track" id="gantt2Chart"></div>
+                    <div class="gantt-ruler" id="gantt2Ruler"></div>
+                </div>
+                <div class="gantt-legend" id="gantt2Legend"></div>
+            </div>
+        </div>
+
+        <!-- Per-patient metrics -->
+        <div class="panel">
+            <div class="panel-header">Per-Patient Metrics</div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('table1', this)">Algorithm 1</button>
+                <button class="tab-btn" onclick="switchTab('table2', this)">Algorithm 2</button>
+            </div>
+
+            <div class="tab-content active" id="table1">
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                        <tr>
+                            <th>Patient</th><th>Arrival</th><th>Burst</th><th>Priority</th>
+                            <th>Completion</th><th>Waiting</th><th>Turnaround</th><th>Response</th>
+                        </tr>
+                        </thead>
+                        <tbody id="metricsTable1"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-content" id="table2">
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                        <tr>
+                            <th>Patient</th><th>Arrival</th><th>Burst</th><th>Priority</th>
+                            <th>Completion</th><th>Waiting</th><th>Turnaround</th><th>Response</th>
+                        </tr>
+                        </thead>
+                        <tbody id="metricsTable2"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script th:src="@{/js/global.js}" src="/js/global.js"></script>
+<script th:src="@{/js/simulation.js}" src="/js/simulation.js"></script>
+</body>
+</html>

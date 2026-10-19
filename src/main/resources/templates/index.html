@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCore Scheduling Engine</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="/css/global.css">
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="/css/index.css">
+</head>
+<body>
+
+<div class="ecg-bar"></div>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">
+        <span class="pulse-dot"></span>
+        MediCore
+    </a>
+    <a href="/" class="nav-link active">Home</a>
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/patients" class="nav-link">Patients</a>
+    <a href="/simulation" class="nav-link">Simulation</a>
+    <a href="/history" class="nav-link">History</a>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<section class="hero">
+    <div class="hero-content">
+
+        <div class="ecg-canvas-wrap">
+            <canvas id="ecgCanvas"></canvas>
+        </div>
+
+        <div class="hero-eyebrow">OS Process Scheduling Simulation</div>
+
+        <h1 class="hero-title">
+            Medi<span>Core</span> Scheduling Engine
+        </h1>
+
+        <p class="hero-subtitle">
+            Intelligent hospital resource scheduling powered by operating
+            system algorithms. Watch FCFS, Round Robin, Priority, SRTF, EDF,
+            SJF, HRRN, and Multilevel Queue compete to treat patients across
+            four hospital departments.
+        </p>
+
+        <div class="hero-actions">
+            <a href="/simulation" class="btn btn-primary btn-hero-primary">
+                ▶ Launch Simulation
+            </a>
+            <a href="/dashboard" class="btn btn-secondary btn-hero-primary">
+                Explore Departments
+            </a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="num">4</span>
+                <span class="lbl">Departments</span>
+            </div>
+            <div class="hero-stat">
+                <span class="num">8</span>
+                <span class="lbl">Algorithms</span>
+            </div>
+            <div class="hero-stat">
+                <span class="num">3</span>
+                <span class="lbl">Core Metrics</span>
+            </div>
+            <div class="hero-stat">
+                <span class="num" id="livePatientCount">—</span>
+                <span class="lbl">Patients Logged</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ── Departments Preview ─────────────────────────────── -->
+<section class="dept-section">
+    <div class="section-header">
+        <span class="section-title">04 Units</span>
+        <span class="section-label">Hospital Departments</span>
+    </div>
+
+    <div class="dept-grid">
+
+        <a href="/simulation" class="dept-card er">
+            <span class="icon">🚨</span>
+            <div class="name">Emergency — ER</div>
+            <div class="algos">
+                Critical patients preempt ongoing treatment instantly.
+            </div>
+            <div style="margin-top:14px;">
+                <span class="algo-tag">Preemptive Priority</span>
+                <span class="algo-tag">Multilevel Queue</span>
+            </div>
+        </a>
+
+        <a href="/simulation" class="dept-card opd">
+            <span class="icon">🏥</span>
+            <div class="name">Outpatient — OPD</div>
+            <div class="algos">
+                Fair, predictable treatment in arrival order or equal slices.
+            </div>
+            <div style="margin-top:14px;">
+                <span class="algo-tag">FCFS</span>
+                <span class="algo-tag">Round Robin</span>
+            </div>
+        </a>
+
+        <a href="/simulation" class="dept-card icu">
+            <span class="icon">💉</span>
+            <div class="name">Intensive Care — ICU</div>
+            <div class="algos">
+                Conditions evolve dynamically — urgency drives the queue.
+            </div>
+            <div style="margin-top:14px;">
+                <span class="algo-tag">SRTF</span>
+                <span class="algo-tag">EDF</span>
+            </div>
+        </a>
+
+        <a href="/simulation" class="dept-card surgery">
+            <span class="icon">🔪</span>
+            <div class="name">Surgery</div>
+            <div class="algos">
+                Short procedures first — long-waiting cases never starve.
+            </div>
+            <div style="margin-top:14px;">
+                <span class="algo-tag">SJF</span>
+                <span class="algo-tag">HRRN</span>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+<script th:src="@{/js/global.js}" src="/js/global.js"></script>
+<script th:src="@{/js/index.js}" src="/js/index.js"></script>
+</body>
+</html>

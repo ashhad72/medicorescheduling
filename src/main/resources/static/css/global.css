@@ -1,0 +1,595 @@
+/* ============================================================
+   MediCore Scheduling Engine — Global Styles
+   Theme: Futuristic Medical Command Center
+   ============================================================ */
+
+/* ── Google Fonts ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Design Tokens ────────────────────────────────────────── */
+:root {
+    --bg:            #081421;
+    --panel:         #102538;
+    --panel-light:   #163248;
+    --border:        #1e3a52;
+    --border-glow:   #00C89740;
+
+    --emerald:       #00C897;
+    --emerald-dim:   #00C89720;
+    --cyan:          #42D9FF;
+    --cyan-dim:      #42D9FF20;
+
+    --red:           #FF4D6D;
+    --red-dim:       #FF4D6D20;
+    --amber:         #FFB830;
+    --amber-dim:     #FFB83020;
+    --purple:        #9B6DFF;
+    --purple-dim:    #9B6DFF20;
+
+    --text:          #E8F0F7;
+    --text-muted:    #6B8CAE;
+    --text-dim:      #3d5a73;
+
+    --font-display:  'Orbitron', monospace;
+    --font-body:     'Inter', sans-serif;
+    --font-mono:     'JetBrains Mono', monospace;
+
+    --radius:        8px;
+    --radius-lg:     14px;
+    --transition:    0.2s ease;
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family:      var(--font-body);
+    background-color: var(--bg);
+    color:            var(--text);
+    min-height:       100vh;
+    overflow-x:       hidden;
+    font-size:        15px;
+    line-height:      1.6;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: var(--bg); }
+::-webkit-scrollbar-thumb        { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--emerald); }
+
+/* ── ECG Header Bar ───────────────────────────────────────── */
+.ecg-bar {
+    position:   fixed;
+    top:        0;
+    left:       0;
+    width:      100%;
+    height:     3px;
+    z-index:    1000;
+    overflow:   hidden;
+    background: var(--bg);
+}
+
+.ecg-bar::after {
+    content:          '';
+    position:         absolute;
+    top:              0;
+    left:             -100%;
+    width:            100%;
+    height:           100%;
+    background:       linear-gradient(90deg,
+                        transparent 0%,
+                        var(--emerald) 30%,
+                        var(--cyan) 50%,
+                        var(--emerald) 70%,
+                        transparent 100%);
+    animation:        ecgSweep 3s linear infinite;
+}
+
+@keyframes ecgSweep {
+    0%   { left: -100%; }
+    100% { left:  100%; }
+}
+
+/* ── Navigation ───────────────────────────────────────────── */
+.nav {
+    position:         sticky;
+    top:              3px;
+    z-index:          999;
+    background:       rgba(8, 20, 33, 0.95);
+    border-bottom:    1px solid var(--border);
+    backdrop-filter:  blur(12px);
+    padding:          0 32px;
+    display:          flex;
+    align-items:      center;
+    height:           64px;
+    gap:              8px;
+}
+
+.nav-brand {
+    font-family:   var(--font-display);
+    font-size:     1rem;
+    font-weight:   700;
+    color:         var(--emerald);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    margin-right:  auto;
+    display:       flex;
+    align-items:   center;
+    gap:           10px;
+}
+
+.nav-brand .pulse-dot {
+    width:            8px;
+    height:           8px;
+    background:       var(--emerald);
+    border-radius:    50%;
+    animation:        pulseDot 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1);   box-shadow: 0 0 0 0 var(--emerald); }
+    50%       { opacity: 0.7; transform: scale(1.2); box-shadow: 0 0 0 6px transparent; }
+}
+
+.nav-link {
+    font-family:    var(--font-body);
+    font-size:      0.82rem;
+    font-weight:    500;
+    color:          var(--text-muted);
+    text-decoration: none;
+    padding:        8px 14px;
+    border-radius:  var(--radius);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition:     color var(--transition), background var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color:      var(--cyan);
+    background: var(--cyan-dim);
+}
+
+/* ── Page Wrapper ─────────────────────────────────────────── */
+.page {
+    max-width:  1200px;
+    margin:     0 auto;
+    padding:    40px 32px;
+}
+
+/* ── Section Header ───────────────────────────────────────── */
+.section-header {
+    display:       flex;
+    align-items:   baseline;
+    gap:           12px;
+    margin-bottom: 28px;
+}
+
+.section-title {
+    font-family:    var(--font-display);
+    font-size:      0.7rem;
+    font-weight:    600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color:          var(--emerald);
+}
+
+.section-label {
+    font-size:  1.4rem;
+    font-weight: 600;
+    color:      var(--text);
+}
+
+/* ── Panel ────────────────────────────────────────────────── */
+.panel {
+    background:    var(--panel);
+    border:        1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding:       24px;
+    transition:    border-color var(--transition);
+}
+
+.panel:hover {
+    border-color: var(--border-glow);
+}
+
+.panel-header {
+    font-family:    var(--font-display);
+    font-size:      0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color:          var(--text-muted);
+    margin-bottom:  16px;
+    display:        flex;
+    align-items:    center;
+    gap:            8px;
+}
+
+.panel-header::before {
+    content:       '';
+    display:       block;
+    width:         3px;
+    height:        14px;
+    background:    var(--emerald);
+    border-radius: 2px;
+}
+
+/* ── Stat Cards ───────────────────────────────────────────── */
+.stat-grid {
+    display:               grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap:                   16px;
+    margin-bottom:         32px;
+}
+
+.stat-card {
+    background:    var(--panel);
+    border:        1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding:       20px 22px;
+    position:      relative;
+    overflow:      hidden;
+    transition:    border-color var(--transition), transform var(--transition);
+}
+
+.stat-card:hover {
+    border-color: var(--emerald);
+    transform:    translateY(-2px);
+}
+
+.stat-card::before {
+    content:    '';
+    position:   absolute;
+    bottom:     0;
+    left:       0;
+    width:      100%;
+    height:     2px;
+    background: linear-gradient(90deg, var(--emerald), transparent);
+}
+
+.stat-card .label {
+    font-size:      0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color:          var(--text-muted);
+    margin-bottom:  8px;
+}
+
+.stat-card .value {
+    font-family:    var(--font-mono);
+    font-size:      2rem;
+    font-weight:    500;
+    color:          var(--text);
+    line-height:    1;
+}
+
+.stat-card .value.emerald { color: var(--emerald); }
+.stat-card .value.cyan    { color: var(--cyan);    }
+.stat-card .value.red     { color: var(--red);     }
+.stat-card .value.amber   { color: var(--amber);   }
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.btn {
+    display:        inline-flex;
+    align-items:    center;
+    gap:            8px;
+    padding:        11px 24px;
+    border-radius:  var(--radius);
+    font-family:    var(--font-body);
+    font-size:      0.85rem;
+    font-weight:    500;
+    letter-spacing: 0.04em;
+    cursor:         pointer;
+    border:         1px solid transparent;
+    transition:     all var(--transition);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background:   var(--emerald);
+    color:        #081421;
+    border-color: var(--emerald);
+}
+
+.btn-primary:hover {
+    background:   transparent;
+    color:        var(--emerald);
+    box-shadow:   0 0 16px var(--emerald-dim);
+}
+
+.btn-secondary {
+    background:   transparent;
+    color:        var(--cyan);
+    border-color: var(--cyan);
+}
+
+.btn-secondary:hover {
+    background:  var(--cyan-dim);
+    box-shadow:  0 0 16px var(--cyan-dim);
+}
+
+.btn-danger {
+    background:   transparent;
+    color:        var(--red);
+    border-color: var(--red);
+    padding:      6px 14px;
+    font-size:    0.78rem;
+}
+
+.btn-danger:hover {
+    background: var(--red-dim);
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor:  not-allowed;
+}
+
+/* ── Badge ────────────────────────────────────────────────── */
+.badge {
+    display:        inline-block;
+    padding:        3px 10px;
+    border-radius:  20px;
+    font-size:      0.72rem;
+    font-weight:    600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.badge-er      { background: var(--red-dim);    color: var(--red);    border: 1px solid var(--red);    }
+.badge-opd     { background: var(--emerald-dim); color: var(--emerald); border: 1px solid var(--emerald); }
+.badge-icu     { background: var(--amber-dim);  color: var(--amber);  border: 1px solid var(--amber);  }
+.badge-surgery { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple); }
+
+.badge-waiting   { background: var(--amber-dim);  color: var(--amber);   border: 1px solid var(--amber);   }
+.badge-running   { background: var(--cyan-dim);   color: var(--cyan);    border: 1px solid var(--cyan);    }
+.badge-completed { background: var(--emerald-dim); color: var(--emerald); border: 1px solid var(--emerald); }
+
+/* ── Table ────────────────────────────────────────────────── */
+.data-table {
+    width:           100%;
+    border-collapse: collapse;
+    font-size:       0.88rem;
+}
+
+.data-table th {
+    font-family:    var(--font-display);
+    font-size:      0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color:          var(--text-muted);
+    padding:        10px 14px;
+    border-bottom:  1px solid var(--border);
+    text-align:     left;
+    font-weight:    600;
+}
+
+.data-table td {
+    padding:       11px 14px;
+    border-bottom: 1px solid var(--border);
+    color:         var(--text);
+    font-family:   var(--font-mono);
+    font-size:     0.84rem;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.data-table tbody tr {
+    transition: background var(--transition);
+}
+
+.data-table tbody tr:hover td {
+    background: var(--panel-light);
+}
+
+/* ── Form Elements ────────────────────────────────────────── */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-label {
+    display:        block;
+    font-size:      0.72rem;
+    font-weight:    500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color:          var(--text-muted);
+    margin-bottom:  7px;
+}
+
+.form-input,
+.form-select {
+    width:         100%;
+    padding:       11px 14px;
+    background:    var(--bg);
+    border:        1px solid var(--border);
+    border-radius: var(--radius);
+    color:         var(--text);
+    font-family:   var(--font-body);
+    font-size:     0.9rem;
+    outline:       none;
+    transition:    border-color var(--transition), box-shadow var(--transition);
+    appearance:    none;
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: var(--emerald);
+    box-shadow:   0 0 0 3px var(--emerald-dim);
+}
+
+.form-select option {
+    background: var(--panel);
+    color:      var(--text);
+}
+
+/* ── Alert / Message ──────────────────────────────────────── */
+.alert {
+    padding:       12px 16px;
+    border-radius: var(--radius);
+    font-size:     0.88rem;
+    margin-bottom: 16px;
+    display:       none;
+}
+
+.alert.show  { display: block; }
+
+.alert-success {
+    background:  var(--emerald-dim);
+    border:      1px solid var(--emerald);
+    color:       var(--emerald);
+}
+
+.alert-error {
+    background: var(--red-dim);
+    border:     1px solid var(--red);
+    color:      var(--red);
+}
+
+/* ── Status Dot ───────────────────────────────────────────── */
+.status-dot {
+    display:       inline-block;
+    width:         8px;
+    height:        8px;
+    border-radius: 50%;
+    margin-right:  6px;
+}
+
+.status-dot.online  { background: var(--emerald); animation: pulseDot 1.8s infinite; }
+.status-dot.waiting { background: var(--amber); }
+.status-dot.busy    { background: var(--red); animation: pulseDot 1s infinite; }
+
+/* ── Empty State ──────────────────────────────────────────── */
+.empty-state {
+    text-align:  center;
+    padding:     60px 20px;
+    color:       var(--text-dim);
+    font-size:   0.9rem;
+    font-family: var(--font-mono);
+}
+
+.empty-state .icon {
+    font-size:     2.5rem;
+    margin-bottom: 12px;
+    opacity:       0.4;
+}
+
+/* ── Loading Spinner ──────────────────────────────────────── */
+.spinner {
+    display:         none;
+    justify-content: center;
+    align-items:     center;
+    gap:             12px;
+    padding:         32px;
+    color:           var(--text-muted);
+    font-family:     var(--font-mono);
+    font-size:       0.85rem;
+}
+
+.spinner.show { display: flex; }
+
+.spinner-ring {
+    width:         28px;
+    height:        28px;
+    border:        2px solid var(--border);
+    border-top:    2px solid var(--emerald);
+    border-radius: 50%;
+    animation:     spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Tab System ───────────────────────────────────────────── */
+.tabs {
+    display:       flex;
+    gap:           4px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+}
+
+.tab-btn {
+    font-family:    var(--font-display);
+    font-size:      0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color:          var(--text-muted);
+    background:     none;
+    border:         none;
+    padding:        10px 16px;
+    cursor:         pointer;
+    border-bottom:  2px solid transparent;
+    margin-bottom:  -1px;
+    transition:     color var(--transition), border-color var(--transition);
+}
+
+.tab-btn:hover  { color: var(--text); }
+
+.tab-btn.active {
+    color:        var(--emerald);
+    border-color: var(--emerald);
+}
+
+.tab-content          { display: none; }
+.tab-content.active   { display: block; }
+
+/* ── Winner Banner ────────────────────────────────────────── */
+.winner-banner {
+    background:    linear-gradient(135deg, #00C89712, #42D9FF08);
+    border:        1px solid var(--emerald);
+    border-radius: var(--radius-lg);
+    padding:       20px 24px;
+    margin-bottom: 24px;
+    display:       flex;
+    align-items:   center;
+    gap:           16px;
+}
+
+.winner-banner .trophy { font-size: 2rem; }
+
+.winner-banner h3 {
+    font-family:    var(--font-display);
+    font-size:      0.8rem;
+    letter-spacing: 0.1em;
+    color:          var(--emerald);
+    margin-bottom:  4px;
+}
+
+.winner-banner p {
+    font-size:  0.85rem;
+    color:      var(--text-muted);
+}
+
+.winner-banner strong { color: var(--cyan); }
+
+/* ── Glow Utilities ───────────────────────────────────────── */
+.glow-emerald { box-shadow: 0 0 20px var(--emerald-dim); }
+.glow-cyan    { box-shadow: 0 0 20px var(--cyan-dim);    }
+.glow-red     { box-shadow: 0 0 20px var(--red-dim);     }
+
+/* ── Counter Animation ────────────────────────────────────── */
+.count-up {
+    font-family: var(--font-mono);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .nav          { padding: 0 16px; }
+    .page         { padding: 24px 16px; }
+    .stat-grid    { grid-template-columns: repeat(2, 1fr); }
+    .nav-link     { display: none; }
+    .nav-link.mobile-show { display: flex; }
+}
+
+@media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

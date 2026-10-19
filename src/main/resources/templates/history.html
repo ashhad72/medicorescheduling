@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History — MediCore</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="/css/global.css">
+    <link rel="stylesheet" th:href="@{/css/history.css}" href="/css/history.css">
+</head>
+<body>
+
+<div class="ecg-bar"></div>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">
+        <span class="pulse-dot"></span>
+        MediCore
+    </a>
+    <a href="/" class="nav-link">Home</a>
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/patients" class="nav-link">Patients</a>
+    <a href="/simulation" class="nav-link">Simulation</a>
+    <a href="/history" class="nav-link active">History</a>
+</nav>
+
+<div class="page">
+
+    <div class="section-header">
+        <span class="section-title">Simulation Log</span>
+        <span class="section-label">Run History</span>
+    </div>
+
+    <!-- Department filters -->
+    <div class="history-filters">
+        <button class="history-filter-btn active" onclick="filterHistory('ALL', this)">All Departments</button>
+        <button class="history-filter-btn er" onclick="filterHistory('ER', this)">🚨 Emergency</button>
+        <button class="history-filter-btn opd" onclick="filterHistory('OPD', this)">🏥 Outpatient</button>
+        <button class="history-filter-btn icu" onclick="filterHistory('ICU', this)">💉 ICU</button>
+        <button class="history-filter-btn surgery" onclick="filterHistory('SURGERY', this)">🔪 Surgery</button>
+    </div>
+
+    <!-- Run list -->
+    <div class="panel">
+        <div class="panel-header">Past Simulation Runs</div>
+        <div class="run-list" id="runList">
+            <div class="empty-state">
+                <div class="icon">📡</div>
+                Loading simulation history...
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script th:src="@{/js/global.js}" src="/js/global.js"></script>
+<script th:src="@{/js/history.js}" src="/js/history.js"></script>
+</body>
+</html>

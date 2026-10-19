@@ -1,0 +1,234 @@
+/* ============================================================
+   MediCore — Dashboard Page Styles
+   ============================================================ */
+
+/* ── Live Status Strip ────────────────────────────────────── */
+.live-strip {
+    display:        flex;
+    align-items:    center;
+    gap:            10px;
+    margin-bottom:  28px;
+    padding:        10px 18px;
+    background:     var(--panel);
+    border:         1px solid var(--border);
+    border-radius:  var(--radius);
+    font-family:    var(--font-mono);
+    font-size:      0.78rem;
+    color:          var(--text-muted);
+    width:          fit-content;
+}
+
+.live-strip .live-dot {
+    width:         8px;
+    height:        8px;
+    border-radius: 50%;
+    background:    var(--emerald);
+    animation:     pulseDot 1.6s ease-in-out infinite;
+}
+
+.live-strip .time {
+    color: var(--cyan);
+}
+
+/* ── Department Map ───────────────────────────────────────── */
+.map-grid {
+    display:               grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap:                   20px;
+    margin-bottom:         36px;
+}
+
+.map-node {
+    background:    var(--panel);
+    border:        1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding:       0;
+    overflow:      hidden;
+    text-decoration: none;
+    display:       block;
+    position:      relative;
+    transition:    transform var(--transition), box-shadow var(--transition);
+}
+
+.map-node:hover {
+    transform: translateY(-4px);
+}
+
+.map-node-header {
+    padding:        18px 22px;
+    display:        flex;
+    align-items:    center;
+    justify-content: space-between;
+    border-bottom:  1px solid var(--border);
+}
+
+.map-node-header .title {
+    font-family:    var(--font-display);
+    font-size:      0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color:          var(--text);
+    display:        flex;
+    align-items:    center;
+    gap:            10px;
+}
+
+.map-node-header .icon-box {
+    width:           34px;
+    height:          34px;
+    border-radius:   8px;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       1.1rem;
+}
+
+.map-node.er .icon-box      { background: var(--red-dim);     color: var(--red);     }
+.map-node.opd .icon-box     { background: var(--emerald-dim); color: var(--emerald); }
+.map-node.icu .icon-box     { background: var(--amber-dim);   color: var(--amber);   }
+.map-node.surgery .icon-box { background: var(--purple-dim);  color: var(--purple);  }
+
+.map-node:hover.er      { box-shadow: 0 8px 32px var(--red-dim);     border-color: var(--red);     }
+.map-node:hover.opd     { box-shadow: 0 8px 32px var(--emerald-dim); border-color: var(--emerald); }
+.map-node:hover.icu     { box-shadow: 0 8px 32px var(--amber-dim);   border-color: var(--amber);   }
+.map-node:hover.surgery { box-shadow: 0 8px 32px var(--purple-dim);  border-color: var(--purple);  }
+
+.map-node-body {
+    padding: 18px 22px 22px;
+}
+
+.map-node-row {
+    display:         flex;
+    justify-content: space-between;
+    align-items:     center;
+    padding:         8px 0;
+    font-size:       0.84rem;
+}
+
+.map-node-row .lbl {
+    color:          var(--text-muted);
+    font-size:      0.78rem;
+    letter-spacing: 0.04em;
+}
+
+.map-node-row .val {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color:       var(--text);
+}
+
+.map-node-algos {
+    display:       flex;
+    gap:           6px;
+    margin-top:    14px;
+    flex-wrap:     wrap;
+}
+
+.map-node-algos .algo-chip {
+    font-family:    var(--font-mono);
+    font-size:      0.68rem;
+    padding:        4px 10px;
+    border-radius:  20px;
+    background:     var(--panel-light);
+    border:         1px solid var(--border);
+    color:          var(--text-muted);
+}
+
+.map-node.er      .map-node-algos .algo-chip:hover { border-color: var(--red);     color: var(--red);     }
+.map-node.opd     .map-node-algos .algo-chip:hover { border-color: var(--emerald); color: var(--emerald); }
+.map-node.icu     .map-node-algos .algo-chip:hover { border-color: var(--amber);   color: var(--amber);   }
+.map-node.surgery .map-node-algos .algo-chip:hover { border-color: var(--purple);  color: var(--purple);  }
+
+/* Queue bar visualization */
+.queue-bar {
+    height:        6px;
+    background:    var(--bg);
+    border-radius: 3px;
+    overflow:      hidden;
+    margin-top:    14px;
+}
+
+.queue-bar-fill {
+    height:     100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+
+.map-node.er      .queue-bar-fill { background: var(--red);     }
+.map-node.opd     .queue-bar-fill { background: var(--emerald); }
+.map-node.icu     .queue-bar-fill { background: var(--amber);   }
+.map-node.surgery .queue-bar-fill { background: var(--purple);  }
+
+/* ── Recent Activity ──────────────────────────────────────── */
+.activity-list {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+}
+
+.activity-item {
+    display:         flex;
+    align-items:     center;
+    gap:             14px;
+    padding:         12px 4px;
+    border-bottom:   1px solid var(--border);
+    font-size:       0.85rem;
+}
+
+.activity-item:last-child { border-bottom: none; }
+
+.activity-item .dept-icon {
+    width:           36px;
+    height:          36px;
+    border-radius:   8px;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       1rem;
+    flex-shrink:     0;
+}
+
+.activity-item.er .dept-icon      { background: var(--red-dim);     }
+.activity-item.opd .dept-icon     { background: var(--emerald-dim); }
+.activity-item.icu .dept-icon     { background: var(--amber-dim);   }
+.activity-item.surgery .dept-icon { background: var(--purple-dim);  }
+
+.activity-item .info {
+    flex: 1;
+}
+
+.activity-item .info .title {
+    color:       var(--text);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.activity-item .info .meta {
+    color:       var(--text-muted);
+    font-size:   0.76rem;
+    font-family: var(--font-mono);
+}
+
+.activity-item .winner-tag {
+    font-family:    var(--font-mono);
+    font-size:      0.72rem;
+    padding:        4px 10px;
+    border-radius:  20px;
+    background:     var(--emerald-dim);
+    color:          var(--emerald);
+    border:         1px solid var(--emerald);
+    white-space:    nowrap;
+}
+
+/* ── Layout ───────────────────────────────────────────────── */
+.dashboard-grid {
+    display:               grid;
+    grid-template-columns: 1fr;
+    gap:                   24px;
+}
+
+@media (min-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1.4fr 1fr;
+    }
+}
